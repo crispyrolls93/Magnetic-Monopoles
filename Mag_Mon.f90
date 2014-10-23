@@ -1,5 +1,7 @@
 !Retrofitting an old Rutherford Scattering Simulation
 
+!Need to add definitions magnetic field strengthand include in the do loop
+
 !Program written by Nathan Cosbie-Ross Last edited 22/10/14
 !Program designed to  to simulate an electron in a 2d electron gas
 !interacting above an artificial magnetic monopole.
@@ -11,7 +13,7 @@ PROGRAM Mag_Mon
 
   !Defines variables as real but with twice the decimal places for
   !optimal accuracy
-  DOUBLE PRECISION :: q, dt, vix, viy, n, b, bx, by, m
+  DOUBLE PRECISION :: q, dt, vxi, vyi, n, b, bx, by, m, bxi, byi, bi
   DOUBLE PRECISION :: x, y, fx, fy, vx, vy, rx, ry, r, v, ri
   
   !All constants neccesary for the formulae are defined below 
@@ -29,18 +31,20 @@ PROGRAM Mag_Mon
   READ(*,*) y
   WRITE(*,*) 'Please enter the initial x velocity'
   WRITE(*,*) 'of the electron'
-  READ(*,*) vix
+  READ(*,*) vxi
   WRITE(*,*) 'Please enter the initial y velocity'
   WRITE(*,*) 'of the electron'
-  READ(*,*) viy
+  READ(*,*) vyi
   WRITE(*,*) 'Please enter the strength of the monopole'
-  READ(*,*) b
+  READ(*,*) bi
 
   !Defines inital velocities and positions in both directions
-  vx = vix
-  vy = viy
+  vx = vxi
+  vy = vyi
   rx = x
   ry = y
+  bxi = 
+  byi = 
 
   !Calculates the initial value of the total separation
   ri = SQRT((x ** 2) + (y ** 2))

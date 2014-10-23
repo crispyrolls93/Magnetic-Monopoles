@@ -13,8 +13,13 @@ PROGRAM Mag_Mon
 
   !Defines variables as real but with twice the decimal places for
   !optimal accuracy
-  DOUBLE PRECISION :: q, dt, vxi, vyi, n, b, bx, by, m, bxi, byi, bi
-  DOUBLE PRECISION :: x, y, fx, fy, vx, vy, rx, ry, r, v, ri
+  !q = charge of electron, dt = time difference, n = count
+  !m = mass of electron, h = height of plane above monopole
+  !b = magnetic field strength, r = separation
+  !rc = separation from projection, f = force, v = velocity
+  
+  DOUBLE PRECISION :: q, dt, n, m, h, b, bx, by, bxi, byi, bi
+  DOUBLE PRECISION :: r, ri, rxi, ryi, rx, ry, rc, fx, fy, vx, vy, v, vxi, vyi
   
   !All constants neccesary for the formulae are defined below 
   q = 1
@@ -70,7 +75,8 @@ PROGRAM Mag_Mon
     vy = vy + (fy / m) * dt
     rx = rx + vx * dt
     ry = ry + vy * dt
-    r = SQRT((rx ** 2) + (ry ** 2))
+    rc = SQRT((rx ** 2) + (ry ** 2))
+    r = SQRT((rx ** 2) + (ry ** 2) + (h ** 2))
  
     !Outputs the displacement in terms of x and y to the output file
     WRITE(1,*) rx, ry 

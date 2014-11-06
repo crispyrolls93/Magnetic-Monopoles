@@ -1,8 +1,4 @@
-!Retrofitting an old Rutherford Scattering Simulation
-
-!Need to add definitions magnetic field strengthand include in the do loop
-
-!Program written by Nathan Cosbie-Ross Last edited 22/10/14
+!Program written by Nathan Cosbie-Ross Last edited 06/11/14
 !Program designed to  to simulate an electron in a 2d electron gas
 !interacting above an artificial magnetic monopole.
 !Allows input of varying initial velocities and displacements
@@ -19,8 +15,8 @@ PROGRAM Mag_Mon
   !rc = separation from projection, f = force, v = velocity
   !theta = angle
   
-  DOUBLE PRECISION :: q, dt, n, m, h, b, bx, by, bxi, byi, bi, btot, theta, phi
-  DOUBLE PRECISION :: r, ri, rxi, ryi, rx, ry, rc, rp, rtot, fx, fy, vx, vy, v, vxi, vyi
+  DOUBLE PRECISION :: q, dt, n, m, h, b, bx, by, bi, btot, theta, phi
+  DOUBLE PRECISION :: r, ri, rx, ry, rc, rp, rtot, fx, fy, vx, vy, v
   
   !All constants neccesary for the formulae are defined below 
   q = 1

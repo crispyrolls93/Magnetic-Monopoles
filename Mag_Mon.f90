@@ -1,3 +1,5 @@
+!Need to add how the magnetic field strength falls with distance 1/r^3 (relationship)
+
 !Program written by Nathan Cosbie-Ross Last edited 06/11/14
 !Program designed to simulate an electron in a 2d electron gas
 !interacting above an artificial magnetic monopole.

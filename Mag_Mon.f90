@@ -1,5 +1,3 @@
-!Need to add how the magnetic field strength falls with distance 1/r^3 (relationship)
-
 !Program written by Nathan Cosbie-Ross Last edited 06/11/14
 !Program designed to simulate an electron in a 2d electron gas
 !interacting above an artificial magnetic monopole.
@@ -17,15 +15,17 @@ PROGRAM Mag_Mon
   !rp = separation from projection, f = force, v = velocity
   !theta = angle around plane, phi = angle perpendicular to plane
   
-  DOUBLE PRECISION :: q, dt, n, m, h, b, bx, by, bc, btot, theta, phi
-  DOUBLE PRECISION :: r, rx, ry, rc, rp, rtot, fx, fy, vx, vy
+  DOUBLE PRECISION :: qe, qm, dt, n, m, h, b, bx, by, bc, bp, theta, phi
+  DOUBLE PRECISION :: r, rx, ry, rc, rp, rtot, fx, fy, vx, vy, mu0, ep0
   
-  !All constants neccesary for the formulae are defined below 
-  q = 1.602 * 10 ** (-19)
+  !All constants necessary for the formulae are defined below 
+  qe = 1.602 * 10 ** (-19)
   m = 9.10938291 * 10 **(-31)
   dt = 1.0 * 10.0 ** (-5.0)
+  mu0 = 1.25663706 * 10 ** (-6)
+  pi = 3.14159265359
 
-  !The intial velocities, displacements and magnetic strength
+  !The initial velocities, displacements and magnetic strength
   !are requested from the user
   WRITE(*,*) 'Please enter the initial x displacement'
   WRITE(*,*) 'of the electron'
@@ -40,8 +40,8 @@ PROGRAM Mag_Mon
   WRITE(*,*) 'of the electron'
   READ(*,*) vy
   WRITE(*,*) 'Please enter the strength of the monopole'
-  READ(*,*) btot
-  WRITE(*,*) 'Please enter the separtaion of the monopole'
+  READ(*,*) qm
+  WRITE(*,*) 'Please enter the separation of the monopole'
   WRITE(*,*) 'from the plane'
   READ(*,*) rp
   
@@ -67,14 +67,12 @@ PROGRAM Mag_Mon
     !Calculates angle from monopole perpendicular to x-y plane
     phi = atan(rc / rp)
     
-    !Calculates magnetic field strength at point and then in x and y respectively
-    bc = btot * sin(phi)
-    bx = bc * cos(theta)
-    by = bc * sin(theta)
-
+    !Calculates magnetic field strength at point perpendicular to the plane.
+    bp = (mu0 / 4 * pi) * ((qm * rp) / (((D ** 2) + (rc ** 2)) ** (3 / 2))
+    
     !Formulae using lorentz equation to get the force at a given time 
-    fx = (q * vy * by)
-    fy = (q * vx * bx)
+    fx = (q * vy * bp)
+    fy = (q * vx * bp)
 
     !Adds the change in velocity due to the velocity
     vx = vx + (fx / m) * dt

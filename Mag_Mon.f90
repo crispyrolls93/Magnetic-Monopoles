@@ -15,9 +15,8 @@ PROGRAM Mag_Mon
   !rp = separation from projection, f = force, v = velocity
   !theta = angle around plane, phi = angle perpendicular to plane
   
-  DOUBLE PRECISION :: qe, qm, dt, n, m, h, b, bx, by, bc, bp, theta, phi
-  DOUBLE PRECISION :: r, rx, ry, rc, rp, rtot, fx, fy, vx, vy, mu0, ep0
-  DOUBLE PRECISION :: d, pi, q
+  DOUBLE PRECISION :: qe, qm, dt, n, m, h, b, bx, by, bc, bp, pi
+  DOUBLE PRECISION :: r, rx, ry, rc, rp, fx, fy, vx, vy, mu0, ep0
   
   !All constants necessary for the formulae are defined below 
   qe = 1.602 * 10 ** (-19)
@@ -60,20 +59,13 @@ PROGRAM Mag_Mon
 
     !Calculates separation from projection of monopole
     rc = SQRT((rx ** 2) + (ry ** 2))
-    !Calculates total separation from monopole
-    rtot = SQRT((rc ** 2) + (rp ** 2))
-    
-    !Calculates angle counter-clockwise from projection of monopole in x axis
-    theta = atan(ry / rx)
-    !Calculates angle from monopole perpendicular to x-y plane
-    phi = atan(rc / rp)
     
     !Calculates magnetic field strength at point perpendicular to the plane.
-    bp = (mu0 / 4 * pi) * ((qm * rp) / (((D ** 2) + (rc ** 2)) ** (3 / 2)))
+    bp = (mu0 / 4 * pi) * ((qm * rp) / (((rp ** 2) + (rc ** 2)) ** (3 / 2)))
     
     !Formulae using lorentz equation to get the force at a given time 
-    fx = (q * vy * bp)
-    fy = (q * vx * bp)
+    fx = (qe * vy * bp)
+    fy = (qe * vx * bp)
 
     !Adds the change in velocity due to the velocity
     vx = vx + (fx / m) * dt

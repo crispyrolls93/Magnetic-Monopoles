@@ -17,6 +17,7 @@ PROGRAM Mag_Mon
   
   DOUBLE PRECISION :: qe, qm, dt, n, m, h, b, bx, by, bc, bp, theta, phi
   DOUBLE PRECISION :: r, rx, ry, rc, rp, rtot, fx, fy, vx, vy, mu0, ep0
+  DOUBLE PRECISION :: d, pi, q
   
   !All constants necessary for the formulae are defined below 
   qe = 1.602 * 10 ** (-19)
@@ -52,7 +53,7 @@ PROGRAM Mag_Mon
   OPEN(1, FILE='Mag_Mon.out')
 
   !Writes the initial x and y displacement to the output file
-  WRITE(1,*) x, y
+  WRITE(1,*) rx, ry
 
   !Repeats the iterations of the formulae within the loop till n = 1000
   DO WHILE (n .LE. 1000)
@@ -68,7 +69,7 @@ PROGRAM Mag_Mon
     phi = atan(rc / rp)
     
     !Calculates magnetic field strength at point perpendicular to the plane.
-    bp = (mu0 / 4 * pi) * ((qm * rp) / (((D ** 2) + (rc ** 2)) ** (3 / 2))
+    bp = (mu0 / 4 * pi) * ((qm * rp) / (((D ** 2) + (rc ** 2)) ** (3 / 2)))
     
     !Formulae using lorentz equation to get the force at a given time 
     fx = (q * vy * bp)
@@ -97,3 +98,4 @@ PROGRAM Mag_Mon
 
 !Ends the program
 END PROGRAM
+

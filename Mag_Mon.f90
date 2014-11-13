@@ -15,38 +15,47 @@ PROGRAM Mag_Mon
   !rp = separation from projection, f = force, v = velocity
   !theta = angle around plane, phi = angle perpendicular to plane
   
-  DOUBLE PRECISION :: qe, qm, dt, n, m, h, b, bx, by, bc, bp, pi
+  DOUBLE PRECISION :: qe, qm, dt, n, m, h, b, bx, by, bc, bp, pi, nmax
   DOUBLE PRECISION :: r, rx, ry, rc, rp, fx, fy, vx, vy, mu0, ep0
   
   !All constants necessary for the formulae are defined below 
-  qe = 1.602 * 10 ** (-19)
-  m = 9.10938291 * 10 **(-31)
-  dt = 1.0 * 10.0 ** (-5.0)
-  mu0 = 1.25663706 * 10 ** (-6)
+  qe = 1.602 * 10 ** (-19.0)
+  m = 9.10938291 * 10 **(-31.0)
+  mu0 = 1.25663706 * 10 ** (-6.0)
   pi = 3.14159265359
 
   !The initial velocities, displacements and magnetic strength
   !are requested from the user
   WRITE(*,*) 'Please enter the initial x displacement'
-  WRITE(*,*) 'of the electron'
+  WRITE(*,*) 'of the electron (nm)'
   READ(*,*) rx
   WRITE(*,*) 'Please enter the initial y displacement'
-  WRITE(*,*) 'of the electron'
+  WRITE(*,*) 'of the electron (nm)'
   READ(*,*) ry
   WRITE(*,*) 'Please enter the initial x velocity'
-  WRITE(*,*) 'of the electron'
+  WRITE(*,*) 'of the electron (nm/s)'
   READ(*,*) vx
   WRITE(*,*) 'Please enter the initial y velocity'
-  WRITE(*,*) 'of the electron'
+  WRITE(*,*) 'of the electron (nm/s)'
   READ(*,*) vy
   WRITE(*,*) 'Please enter the strength of the monopole'
   READ(*,*) qm
   WRITE(*,*) 'Please enter the separation of the monopole'
   WRITE(*,*) 'from the plane'
   READ(*,*) rp
+  WRITE(*,*) 'Please enter the timestep (ns)'
+  READ(*,*) dt
+  WRITE(*,*) 'Please enter the number of iterations'
+  READ(*,*) nmax
   
   !Initialises the count n
   n = 0
+  !Converts into SI Units
+  rx = rx * 10.0 ** (-9.0)
+  ry = ry * 10.0 ** (-9.0)
+  vx = vx * 10.0 ** (-9.0)
+  vy = vy * 10.0 ** (-9.0)
+  dt = dt * 10.0 ** (-9.0)
 
   !Opens the output file
   OPEN(1, FILE='Mag_Mon.out')
@@ -54,27 +63,27 @@ PROGRAM Mag_Mon
   !Writes the initial x and y displacement to the output file
   WRITE(1,*) rx, ry
 
-  !Repeats the iterations of the formulae within the loop till n = 1000
-  DO WHILE (n .LE. 1000)
+  !Repeats the iterations of the formulae within the loop till set number of iterations
+  DO WHILE (n .LE. nmax)
 
     !Calculates separation from projection of monopole
-    rc = SQRT((rx ** 2) + (ry ** 2))
+    rc = SQRT((rx ** 2.0) + (ry ** 2.0))
     
     !Calculates magnetic field strength at point perpendicular to the plane.
-    bp = (mu0 / 4 * pi) * ((qm * rp) / (((rp ** 2) + (rc ** 2)) ** (3 / 2)))
+    bp = ((mu0 / 4.0 * pi) * ((qm * rp) / (((rp ** 2.0) + (rc ** 2.0)) ** (3.0 / 2.0)))) / (10.0 ** (9.0)
     
     !Formulae using lorentz equation to get the force at a given time 
     fx = (qe * vy * bp)
     fy = (qe * vx * bp)
 
     !Adds the change in velocity due to the velocity
-    vx = vx + (fx / m) * dt
-    vy = vy + (fy / m) * dt
+    vx = vx + ((fx / m) * dt
+    vy = vy + ((fy / m) * dt
 
     !Adds to the displacement due to velocity
     rx = rx + vx * dt
     ry = ry + vy * dt
-    r = SQRT((rx ** 2) + (ry ** 2) + (h ** 2))
+    r = SQRT((rx ** 2.0) + (ry ** 2.0) + (h ** 2.0))
 
     !Adds to the count
     n = n + 1

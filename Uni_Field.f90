@@ -43,11 +43,12 @@ PROGRAM Uni_Field
   WRITE(*,*) 'Please enter the number of iterations'
   READ(*,*) nmax
   !Converts Magnetic field and displacements/velocities
-  b = b * 10 ** (-9.0)
-  rx = rx * 10 ** (-9.0)
-  ry = ry * 10 ** (-9.0)
-  vx = vx * 10 ** (-9.0)
-  vy = vy * 10 ** (-9.0)
+  b = b * 10.0 ** (-9.0)
+  rx = rx * 10.0 ** (-9.0)
+  ry = ry * 10.0 ** (-9.0)
+  vx = vx * 10.0 ** (-9.0)
+  vy = vy * 10.0 ** (-9.0)
+  dt = dt * 10.0 ** (-9.0)
   !Initialises the count n
   n = 0
 
@@ -60,11 +61,11 @@ PROGRAM Uni_Field
     !Formulae using lorentz equation to get the force at a given time 
     fx = -(qe * vy * b)
     fy = (qe * vx * b)
-	WRITE(1,*) fx, fy
+	
     !Adds the change in velocity due to the velocity
-    vx = vx + (fx / m) * dt * 10 ** (-9.0)
-    vy = vy + (fy / m) * dt * 10 ** (-9.0)
-	WRITE(1,*) vx, vy
+    vx = vx + (fx / m) * dt
+    vy = vy + (fy / m) * dt
+	
     !Adds to the displacement due to velocity
     rx = rx + vx * dt
     ry = ry + vy * dt

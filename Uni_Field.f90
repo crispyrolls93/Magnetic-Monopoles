@@ -59,8 +59,8 @@ PROGRAM Uni_Field
   DO WHILE (n .LE. nmax)
    
     !Formulae using lorentz equation to get the force at a given time 
-    fx = -(qe * vy * b)
-    fy = (qe * vx * b)
+    fx = (qe * vy * b)
+    fy = -(qe * vx * b)
 	
     !Adds the change in velocity due to the velocity
     vx = vx + (fx / m) * dt

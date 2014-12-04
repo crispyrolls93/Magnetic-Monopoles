@@ -11,12 +11,11 @@ PROGRAM Mag_Mon
   !optimal accuracy
   !q = charge of electron, dt = time difference, n = count
   !m = mass of electron, h = height of plane above monopole
-  !b = magnetic field strength, r = separation, rc = separation in plane
-  !rp = separation from projection, f = force, v = velocity
-  !theta = angle around plane, phi = angle perpendicular to plane
+  !b = magnetic field strength, r = separation
+  !rp = separation from projection, f = fore, v = velocity
   
   DOUBLE PRECISION :: qe, qm, dt, n, m, h, b, bx, by, bc, bp, pi, nmax
-  DOUBLE PRECISION :: r, rx, ry, rc, rp, fx, fy, vx, vy, mu0, ep0
+  DOUBLE PRECISION :: r, rx, ry, r, rp, fx, fy, vx, vy, mu0, ep0
   
   !All constants necessary for the formulae are defined below 
   qe = 1.602 * 10 ** (-19.0)
@@ -67,18 +66,18 @@ PROGRAM Mag_Mon
   DO WHILE (n .LE. nmax)
 
     !Calculates separation from projection of monopole
-    rc = SQRT((rx ** 2.0) + (ry ** 2.0))
+    r = SQRT((rx ** 2.0) + (ry ** 2.0))
     
     !Calculates magnetic field strength at point perpendicular to the plane.
-    bp = ((mu0 / 4.0 * pi) * ((qm * rp) / (((rp ** 2.0) + (rc ** 2.0)) ** (3.0 / 2.0)))) / (10.0 ** (9.0)
+    bp = ((mu0 / 4.0 * pi)) * ((qm * rp) / (((rp ** 2.0) + (r ** 2.0)) ** (3.0 / 2.0)))
     
-    !Formulae using lorentz equation to get the force at a given time 
+    !Formulae using lorentz equation to get the fore at a given time 
     fx = (qe * vy * bp)
-    fy = (qe * vx * bp)
+    fy = -(qe * vx * bp)
 
     !Adds the change in velocity due to the velocity
-    vx = vx + ((fx / m) * dt
-    vy = vy + ((fy / m) * dt
+    vx = vx + ((fx / m) * dt)
+    vy = vy + ((fy / m) * dt)
 
     !Adds to the displacement due to velocity
     rx = rx + vx * dt

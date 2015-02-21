@@ -1,0 +1,48 @@
+!Program Written by Nathan Cosbie-Ross Last Edited 21/02/15
+!Program Designed to Obtain Values for a Plot of Unit-less Energy Against Distance
+
+!-----Begins Program-----!
+PROGRAM Energy
+
+!-----Fix For Legacy Flaw-----!
+IMPLICIT NONE
+
+!-----Defines All Variable Types-----!
+DOUBLE PRECISION :: E, r, pi, dt, tmax, t, q_e, h, y, x
+integer ::j, i, steps
+
+!-----All Constants Necessary For The Formulae Are Defined Below-----!
+pi = 3.14159265359D0 
+q_e = 1.60218D-19
+h = 6.62607D-34
+
+!-----Maximum Time and Time Step Are Defined-----!
+dt = 0.0001
+tmax = 7
+
+!-----Do Loop Variables Are Initialised-----!
+t = 0
+i = 0
+steps = tmax / dt
+
+!-----Opens Output File-----!
+open (1, file='Energy.dat')
+
+!-----Begins Do Loop-----!
+DO i = 0, steps, 1
+	
+	!-----Iterates Energy Equations-----!
+	E = ((t**2))/((1+(t**2))**3)
+	t = t + dt
+
+	!-----Writes Output File-----!
+	WRITE(1,*) t, E
+
+!-----Ends Do Loop-----!
+END DO
+
+!-----Closes Output File-----!
+close(1)
+
+!-----Ends Program-----!
+END PROGRAM

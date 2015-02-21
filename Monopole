@@ -1,0 +1,86 @@
+!Program written by Nathan Cosbie-Ross Last edited 21/02/15
+!Program designed to simulate an electron in a 2d electron gas
+!interacting above an artificial magnetic monopole.
+!Allows input of varying initial velocities, displacements and monopole strengths.
+
+!-----Begins Program-----!
+PROGRAM Monopole
+
+!-----Fix For Legacy Flaw-----!
+IMPLICIT NONE
+
+!-----Defines All Variable Types-----!
+double precision :: dt, tmax, r_x, r_y, dp_x, dp_y, r, theta
+double precision :: p_x, p_y, t, dr_x, dr_y, mrx, mpy
+integer :: i, n, steps
+
+!-----Define Multipliers for Momenta and Radii-----!
+
+mrx = 1
+mpy = 1
+theta = 0
+
+!-----Define Time-----!
+
+dt = 0.00001!Dividing Time Iteration By t0 (t~ = t/t0)
+
+tmax = 1 !Dividing Max Time By t0 (t~ = t/t0)
+
+!-----Define Unit-less Radius and Momentum-----!
+
+r_x = -0.70719998213462532 * mrx !r/D Dividing X component of radius by monopole distance because r~ = r/r0 (r0 = D)
+r_y = 0 !Dividing Y component of radius by monopole distance because r~ = r/r0 (r0 = D)
+
+p_x = ((r_x)/((1+(r_x**2))**1.5)) * sin(theta) !Initial momentum X component
+p_y = -((r_x)/((1+(r_x**2))**1.5))* cos(theta) * mpy!Initial Y component of momentum derived from unitless energy equation
+
+!-----Initialise Time Variable-----!
+t = 0
+
+!-----Calculates the Number of Steps for Iterations-----!
+steps = tmax / dt
+
+!-----Opens the Output File-----!
+open (1, file='Monopole.dat')
+
+!-----Initialise the n-variable-----!
+n = 1
+!-----Begins Do Loop-----!
+DO i = 0, steps, 1
+	
+	!-----Iterates Classical Mechanical Equations-----!
+	r = ((r_x**2)+(r_y**2))**0.5 !Gains Magnitude of Separation
+
+	dp_x =dt*p_y*(1/((1+(r**2))**1.5)) !Change in X Momentum dP~/dt~
+	dp_y =-dt*p_x*(1/((1+(r**2))**1.5)) !Change in Y Momentum dP~/dt~
+
+	p_x = p_x + dp_x !Adding Change in X Momentum to Previous X Momentum Value
+	p_y = p_y + dp_y !Adding Change in Y Momentum to Previous X Momentum Value
+
+	dr_x =(dt*p_x) !Change in X Radius Component
+	dr_y =(dt*p_y) !Change in Y Radius Component
+
+	r_x = r_x + dr_x !Adding Change in X Radius to Previous X Radius Value
+	r_y = r_y + dr_y !Adding Change in Y Radius to Previous Y Radius Value
+
+	t = t + dt !Adding Time Iteration to Time Counter
+		
+	!-----Updates Terminal With Percentage Completion-----!
+	IF (t >= (n/10) * tmax) THEN
+
+		WRITE(*,*) n * 10, '% Complete'
+		n = n + 1
+	
+	END IF
+		
+	!-----Writes to Output File-----!
+	WRITE(1,*) r_x, r_y
+
+!-----Ends Do Loop-----!
+END DO
+
+!-----Closes Output File-----!
+close(1)
+
+!-----Ends Program-----!
+END PROGRAM
